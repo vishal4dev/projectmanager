@@ -1,8 +1,10 @@
 services:
   - type: web
     name: team-task-manager-backend
-    runtime: docker
+    runtime: node
     rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production

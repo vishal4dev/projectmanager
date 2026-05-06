@@ -133,7 +133,7 @@ PORT=5000
    **Backend Service:**
    - Click **New** → **Web Service** → Connect your GitHub repo
    - Set **Root Directory** to `backend`
-   - Choose **Docker** runtime (uses existing `Dockerfile`)
+   - Choose **Node** runtime
    - Add environment variables:
      - `MONGO_URI`: Your MongoDB Atlas connection string
      - `JWT_SECRET`: A secure random string
