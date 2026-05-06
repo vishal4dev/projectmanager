@@ -72,54 +72,43 @@ PORT=5000
 - Railway account (https://railway.app)
 - MongoDB Atlas account (for cloud database)
 
-### Backend Deployment
+### Deployment Steps
 
-1. **Create a new project on Railway**
+1. **Push your code to GitHub** (if not already done)
+
+2. **Create Railway Project**
    - Go to Railway and click "New Project"
    - Select "Deploy from GitHub repo"
    - Connect your repository
 
-2. **Configure MongoDB**
-   - Add a MongoDB service from Railway marketplace
-   - Or use MongoDB Atlas and get your connection string
-   - Set `MONGO_URI` environment variable in Railway settings
+3. **Deploy Backend Service**
+   - Click "New Service" → "GitHub Repo"
+   - Select the same repository
+   - **Important**: Set "Root Directory" to `backend`
+   - Railway will detect Node.js and use the Dockerfile
+   - Add MongoDB service from Railway marketplace (or use MongoDB Atlas)
+   - Set environment variables in Railway settings:
+     - `MONGO_URI`: Your MongoDB connection string
+     - `JWT_SECRET`: Generate a secure random string
+     - `PORT`: 5000 (Railway will auto-assign if not set)
 
-3. **Set Environment Variables**
-   In Railway project settings, add:
-   - `MONGO_URI`: Your MongoDB connection string
-   - `JWT_SECRET`: Generate a secure random string
-   - `PORT`: 5000 (Railway will auto-assign if not set)
+4. **Deploy Frontend Service**
+   - Click "New Service" → "GitHub Repo"
+   - Select the same repository
+   - **Important**: Set "Root Directory" to `frontend`
+   - Set environment variable:
+     - `REACT_APP_API_URL`: Your backend Railway URL (e.g., https://your-backend.railway.app)
+   - Railway will build the React app and serve it
 
-4. **Backend Service**
-   - Railway will automatically detect the backend from the `backend/` directory
-   - It will use the `Procfile` to start the server
-
-### Frontend Deployment
-
-1. **Add Frontend Service**
-   - In your Railway project, click "New Service"
-   - Select "GitHub Repo" and choose the same repository
-   - Set the root directory to `frontend`
-
-2. **Set Environment Variables**
-   - `REACT_APP_API_URL`: Your backend Railway URL (e.g., https://your-backend.railway.app)
-
-3. **Frontend Service**
-   - Railway will build the React app using the build script
-   - It will serve the static files using serve
-
-### Deployment Steps
-
-1. Push your code to GitHub
-2. Connect your repository to Railway
-3. Railway will automatically deploy both services
-4. Monitor the deployment logs in Railway dashboard
-5. Once deployed, Railway will provide URLs for both services
+5. **Monitor Deployment**
+   - Watch the deployment logs in Railway dashboard
+   - Railway will provide URLs for both services once deployed
 
 ### Important Notes
 
 - Railway automatically handles SSL/HTTPS
 - Both services will have auto-generated URLs
 - You can set custom domains in Railway settings
-- MongoDB can be added as a Railway service or use MongoDB Atlas
 - The frontend `REACT_APP_API_URL` must be updated with the actual backend URL after deployment
+- Each service needs its own Railway service with the correct root directory configured
+
