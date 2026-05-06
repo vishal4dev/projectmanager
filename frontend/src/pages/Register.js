@@ -12,7 +12,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const Register = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'Member' });
@@ -24,7 +24,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', form);
+      const res = await api.post('/api/auth/register', form);
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err) {

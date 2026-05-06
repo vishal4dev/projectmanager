@@ -11,10 +11,7 @@ app.use(express.json());
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI || 'mongodb://localhost:27017/teamtaskmanager', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO_URI || 'mongodb://localhost:27017/teamtaskmanager')
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));
 

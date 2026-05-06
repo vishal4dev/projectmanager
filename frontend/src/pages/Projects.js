@@ -11,7 +11,7 @@ import {
   Alert,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -29,7 +29,7 @@ const Projects = () => {
       }
       const config = { headers: { Authorization: `Bearer ${token}` } };
       try {
-        const res = await axios.get('http://localhost:5000/api/projects', config);
+        const res = await api.get('/api/projects', config);
         setProjects(res.data);
       } catch (err) {
         setError('Failed to load projects');
@@ -47,7 +47,7 @@ const Projects = () => {
     const token = localStorage.getItem('token');
     const config = { headers: { Authorization: `Bearer ${token}` } };
     try {
-      await axios.post('http://localhost:5000/api/projects', form, config);
+      await api.post('/api/projects', form, config);
       setForm({ name: '', description: '' });
       setSuccess('Project created successfully!');
       setTimeout(() => window.location.reload(), 1000);

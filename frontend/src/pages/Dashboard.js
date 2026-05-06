@@ -12,7 +12,7 @@ import {
   Alert,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -30,13 +30,13 @@ const Dashboard = () => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
       try {
-        const projRes = await axios.get('http://localhost:5000/api/projects', config);
+        const projRes = await api.get('/api/projects', config);
         setProjects(projRes.data);
 
         const allTasks = [];
         for (const proj of projRes.data) {
-          const taskRes = await axios.get(
-            `http://localhost:5000/api/tasks/project/${proj._id}`,
+          const taskRes = await api.get(
+            `/api/tasks/project/${proj._id}`,
             config
           );
           allTasks.push(...taskRes.data);
@@ -49,7 +49,7 @@ const Dashboard = () => {
     fetchData();
   }, [navigate]);
 
-  const overdueTasks = tasks.filter((task) => task.dueDate && new Date(task.dueDate) < new Date() && task.status !== 'Done');
+  const overdueTasks = tasks.filter((task) => task.dueDate && new Date(task.dueDate) < new Date());
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4 }}>

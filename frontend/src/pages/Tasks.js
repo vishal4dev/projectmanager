@@ -16,7 +16,7 @@ import {
   Chip,
   Alert,
 } from '@mui/material';
-import axios from 'axios';
+import api from '../api';
 
 const Tasks = () => {
   const { projectId } = useParams();
@@ -30,7 +30,7 @@ const Tasks = () => {
       const token = localStorage.getItem('token');
       const config = { headers: { Authorization: `Bearer ${token}` } };
       try {
-        const res = await axios.get(`http://localhost:5000/api/tasks/project/${projectId}`, config);
+        const res = await api.get(`/api/tasks/project/${projectId}`, config);
         setTasks(res.data);
       } catch (err) {
         setError('Failed to load tasks');
@@ -48,7 +48,7 @@ const Tasks = () => {
     const token = localStorage.getItem('token');
     const config = { headers: { Authorization: `Bearer ${token}` } };
     try {
-      await axios.post('http://localhost:5000/api/tasks', { ...form, project: projectId }, config);
+      await api.post('/api/tasks', { ...form, project: projectId }, config);
       setForm({ title: '', description: '', dueDate: '' });
       setSuccess('Task created successfully!');
       setTimeout(() => window.location.reload(), 1000);
@@ -61,7 +61,7 @@ const Tasks = () => {
     const token = localStorage.getItem('token');
     const config = { headers: { Authorization: `Bearer ${token}` } };
     try {
-      await axios.put(`http://localhost:5000/api/tasks/${id}`, { status }, config);
+      await api.put(`/api/tasks/${id}`, { status }, config);
       window.location.reload();
     } catch (err) {
       setError('Failed to update task');
