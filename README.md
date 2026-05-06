@@ -112,3 +112,44 @@ PORT=5000
 - The frontend `REACT_APP_API_URL` must be updated with the actual backend URL after deployment
 - Each service needs its own Railway service with the correct root directory configured
 
+## Render Deployment
+
+### Prerequisites
+- Render account (https://render.com)
+- MongoDB Atlas account (for cloud database)
+
+### Deployment Steps
+
+1. **Push your code to GitHub** (if not already done)
+
+2. **Deploy via Blueprint (recommended)**
+   - In Render dashboard, click **New** → **Blueprint**
+   - Connect your GitHub repository
+   - Render will read `render.yaml` and create both services automatically
+   - Set `MONGO_URI` manually in the backend service environment variables after creation
+
+3. **Or deploy manually:**
+
+   **Backend Service:**
+   - Click **New** → **Web Service** → Connect your GitHub repo
+   - Set **Root Directory** to `backend`
+   - Choose **Docker** runtime (uses existing `Dockerfile`)
+   - Add environment variables:
+     - `MONGO_URI`: Your MongoDB Atlas connection string
+     - `JWT_SECRET`: A secure random string
+     - `PORT`: 5000
+   - Deploy
+
+   **Frontend Static Site:**
+   - Click **New** → **Static Site** → Connect the same repo
+   - Set **Root Directory** to `frontend`
+   - **Build Command:** `npm install && npm run build`
+   - **Publish Directory:** `build`
+   - Add environment variable:
+     - `REACT_APP_API_URL`: Your deployed backend URL (e.g., `https://team-task-manager-backend.onrender.com`)
+   - Deploy
+
+### Important Notes
+- Render automatically handles SSL/HTTPS
+- The frontend `REACT_APP_API_URL` must point to the actual backend URL
+- MongoDB Atlas must whitelist `0.0.0.0/0` (or Render's outbound IPs) for connections

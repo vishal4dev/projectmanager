@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: team-task-manager-backend
+    runtime: docker
+    rootDir: backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+
+  - type: static
+    name: team-task-manager-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    rootDir: frontend
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          name: team-task-manager-backend
+          type: web
+          property: url
